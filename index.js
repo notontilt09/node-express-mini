@@ -12,10 +12,10 @@ server.use(express.json());
 server.get('/api/users', (req, res) => {
     db.find()
         .then(users => {
-            res.status(200).json({success: true, users})
+            res.status(200).json({ success: true, users })
         })
         .catch(err => {
-            res.status(err.code).json({success: false, message: err.message})
+            res.status(500).send({ error: "The users information could not be retrieved."})
         })
 });
 
@@ -25,10 +25,13 @@ server.get('/api/users/:id', (req, res) => {
 
     db.findById(userId)
         .then(user => {
+            if (user.length === 0) {
+                res.status(404).json({ message: "The user with the specified ID does not exist."})
+            }
             res.status(200).json({success: true, user})
         })
         .catch(err => {
-            res.status(500).json({success: false, err})
+            res.status(500).json({ error: "The user information could not be retrieved." })
         })
 });
 
@@ -46,7 +49,7 @@ server.post('/api/users', (req, res) => {
                     res.status(201).json({ success: true, user })
                 })
                 .catch(err => {
-                    res.status(500).send({ error: "There was an error while saving the user to the database"})
+                    res.status(500).json({ error: "There was an error while saving the user to the database"})
                 })
         })
 });
