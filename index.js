@@ -32,6 +32,25 @@ server.get('/api/users/:id', (req, res) => {
         })
 });
 
+// handle POST request for creating new user
+server.post('/api/users', (req, res) => {
+    const user = req.body;
+    if (!user.name || !user.bio) {
+        res.status(400).send({ errorMessage: "Please provide name and bio for the user." });
+        return;
+    }
+    db.insert(user)
+        .then(user => {
+            db.findById(user.id)
+                .then(user => {
+                    res.status(201).json({ success: true, user })
+                })
+                .catch(err => {
+                    res.status(500).send({ error: "There was an error while saving the user to the database"})
+                })
+        })
+});
+
 
 
 
