@@ -1,0 +1,18 @@
+form {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.users {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.user {
+  margin: 20px 30px;
+  border: 1px solid lightgray;
+  box-shadow: 1px 1px 1px 1px lightgray;
+}
